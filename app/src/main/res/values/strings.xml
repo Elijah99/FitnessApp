@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FitnessApp</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="calculator">Calculator</string>
+    <string name="articles">Articles</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="calculator_text">With the help of this calculator you can check if your weight is normal</string>
+    <string name="weight">Enter your weight here</string>
+    <string name="height">Enter your height here</string>
+    <string name="count">Count</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
