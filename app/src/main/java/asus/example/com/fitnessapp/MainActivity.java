@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
@@ -23,7 +22,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         container = (FrameLayout) findViewById(R.id.container);
-
+        Fragment fragment = new ProgramsFragment();
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -38,29 +43,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Fragment fragment;
         FragmentTransaction ft;
         switch (item.getItemId()){
-            case R.id.home:
-                return true;
-            case R.id.profile:
-                return true;
+            case R.id.programs:
+                fragment = new ProgramsFragment();
+                break;
+            case R.id.indications:
+                fragment = new IndicationsFragment();
+                break;
             case R.id.calculator:
                 fragment = new CalculatorFragment();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.container, fragment);
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
-                return true;
+                break;
             case R.id.articles:
                 fragment = new ArticlesFragment();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.container, fragment);
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
-                return true;
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.container, fragment);
+        ft.addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+        return true;
     }
 }

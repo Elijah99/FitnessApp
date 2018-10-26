@@ -1,6 +1,6 @@
 package asus.example.com.fitnessapp;
 
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,18 +37,23 @@ public class CalculatorFragment extends Fragment {
         result = v.findViewById(R.id.result);
         button.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                nWeight = Integer.parseInt(eWeight.getText().toString());
-                nHeight = Integer.parseInt(eHeight.getText().toString());
-                if (nHeight-nWeight>120) {
-                    result.setText("Your weight is too low");
-                }
-                else if (nHeight-nWeight<100){
-                    result.setText("Your weight is too big");
-                }
-                else {
-                    result.setText("Your weight is normal");
+                try {
+                    nWeight = Integer.parseInt(eWeight.getText().toString());
+                    nHeight = Integer.parseInt(eHeight.getText().toString());
+                    if (nHeight-nWeight>120) {
+                        result.setText("Your weight is too low");
+                    }
+                    else if (nHeight-nWeight<100){
+                        result.setText("Your weight is too big");
+                    }
+                    else {
+                        result.setText("Your weight is normal");
+                    }
+                }catch (NumberFormatException e){
+                    result.setText("Enter the normal numbers");
                 }
             }
         });
