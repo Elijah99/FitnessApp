@@ -1,6 +1,11 @@
 package asus.example.com.fitnessapp;
 
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,15 +15,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Date;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class IndicationsFragment extends Fragment {
-    private EditText pulse;
+
     private Button save;
+    private Button createGraph;
+    private GraphView graphView;
+    private EditText editText;
+    private DBHelper dbHelper;
 
     public IndicationsFragment() {
         // Required empty public constructor
@@ -30,24 +43,78 @@ public class IndicationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_indications, container, false);
-        pulse = view.findViewById(R.id.pulse);
         save = view.findViewById(R.id.save);
-        final Date date = new Date();
+        createGraph = view.findViewById(R.id.create_graph);
+        graphView = view.findViewById(R.id.graph);
+        editText = view.findViewById(R.id.pulse);
+        dbHelper = new DBHelper(getContext());
+        final ContentValues cv = new ContentValues();
+        final SQLiteDatabase database = dbHelper.getWritableDatabase();
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    int iPulse = Integer.parseInt(pulse.getText().toString());
-                    int iDate = date.getDate();
-                    int iMonth = date.getMonth()+1;
-                    int iYear = date.getYear()+1900;
-                    Toast.makeText(getContext(), "Information saved", Toast.LENGTH_LONG).show();
-                }catch (NumberFormatException e){
-                    Toast.makeText(getContext(),"Wrong input!", Toast.LENGTH_LONG).show();
+                int iPulse = Integer.parseInt(editText.getText().toString());
+                Date date = new Date();
+                int iDate = date.getDate();
+                int iMonth = date.getMonth()+1;
+                int iYear = date.getYear()+1900;
+                cv.put("pulse", iPulse);
+                cv.put("date", iDate);
+                cv.put("month", iMonth);
+                cv.put("year", iYear);
+                long rowID = database.insert("muTable", null, cv);
+                Toast.makeText(getContext(), "Information saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final ArrayList<Integer> pulses = new ArrayList<>();
+        final ArrayList<Integer> dates = new ArrayList<>();
+        createGraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Cursor cursor = database.query("myTable", null,null,null,null,null,null);
+                if (cursor.moveToFirst()){
+                    int idPulseIndex = cursor.getColumnIndex("pulse");
+                    int idDateIndex = cursor.getColumnIndex("date");
+                    int idMonthIndex = cursor.getColumnIndex("month");
+                    int idYearIndex = cursor.getColumnIndex("year");
+                    Date date = new Date();
+                    if ((cursor.getInt(idMonthIndex) == date.getMonth()+1) && (cursor.getInt(idYearIndex)==date.getYear()+1900)) {
+                        pulses.add(cursor.getInt(idPulseIndex));
+                        dates.add(cursor.getInt(idDateIndex));
+                    }
                 }
+                DataPoint[] arr = new DataPoint[dates.size()];
+                for (int i = 0;i<arr.length;i++){
+                    arr[i] = new DataPoint(dates.get(i), pulses.get(i));
+                }
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr);
+                graphView.addSeries(series);
             }
         });
         return view;
     }
+
+    public class DBHelper extends SQLiteOpenHelper {
+
+        DBHelper(Context context){
+            super(context,"myDB", null, 1);
+
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("create table myTable ("+"id integer primary key autoincrement,"+
+                    "pulse integer,"+"date integer,"+"month integer,"+"year integer"+");");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
+    }
+
 
 }

@@ -11,27 +11,39 @@
         android:id="@+id/pulse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:hint="@string/pulse"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:inputType="number"
-        android:hint="@string/pulse"/>
+        android:layout_marginTop="16dp"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/save"
         android:layout_below="@+id/pulse"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save"/>
 
-    <TextView
-        android:id="@+id/text"
+    <Button
+        android:id="@+id/create_graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/create_graph"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/save"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="16dp"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_graph"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="68dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
 
 </RelativeLayout>

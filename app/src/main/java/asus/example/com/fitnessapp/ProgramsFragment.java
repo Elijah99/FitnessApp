@@ -17,10 +17,10 @@ import android.widget.GridView;
  */
 public class ProgramsFragment extends Fragment {
 
-    public final String[] programs = {"Slim body for a four weeks", "Exercises for woman at home", "Effective exercises for biceps at home",
+    private final String[] programs = {"Slim body for a four weeks", "Exercises for woman at home", "Effective exercises for biceps at home",
             "Program of effective trainings twice a week", "Training on a horizontal bar for increasing muscle mass",
             "Fitness program for woman: trainings at home at in gym"};
-    public final String PROGRAM ="PROGRAM";
+    private final String PROGRAM ="PROGRAM";
     public ProgramsFragment() {
         // Required empty public constructor
     }
