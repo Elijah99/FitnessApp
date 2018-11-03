@@ -32,7 +32,7 @@ public class IndicationsFragment extends Fragment {
     private GraphView graphView;
     private EditText editText;
     private DBHelper dbHelper;
-
+    int i = 0;
     public IndicationsFragment() {
         // Required empty public constructor
     }
@@ -56,14 +56,15 @@ public class IndicationsFragment extends Fragment {
             public void onClick(View v) {
                 int iPulse = Integer.parseInt(editText.getText().toString());
                 Date date = new Date();
-                int iDate = date.getDate();
+                int iDate = date.getDate()+i;
+                i++;
                 int iMonth = date.getMonth()+1;
                 int iYear = date.getYear()+1900;
                 cv.put("pulse", iPulse);
                 cv.put("date", iDate);
                 cv.put("month", iMonth);
                 cv.put("year", iYear);
-                long rowID = database.insert("muTable", null, cv);
+                long rowID = database.insert("myTable", null, cv);
                 Toast.makeText(getContext(), "Information saved", Toast.LENGTH_SHORT).show();
             }
         });
@@ -75,7 +76,8 @@ public class IndicationsFragment extends Fragment {
             public void onClick(View v) {
 
                 Cursor cursor = database.query("myTable", null,null,null,null,null,null);
-                if (cursor.moveToFirst()){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
                     int idPulseIndex = cursor.getColumnIndex("pulse");
                     int idDateIndex = cursor.getColumnIndex("date");
                     int idMonthIndex = cursor.getColumnIndex("month");
@@ -85,13 +87,20 @@ public class IndicationsFragment extends Fragment {
                         pulses.add(cursor.getInt(idPulseIndex));
                         dates.add(cursor.getInt(idDateIndex));
                     }
+                    cursor.moveToNext();
                 }
                 DataPoint[] arr = new DataPoint[dates.size()];
                 for (int i = 0;i<arr.length;i++){
                     arr[i] = new DataPoint(dates.get(i), pulses.get(i));
+                    System.out.print("Adding Data point: \n");
                 }
+                System.out.print("Data points: " + arr.length);
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr);
                 graphView.addSeries(series);
+                graphView.getViewport().setMaxX(31);
+                graphView.getViewport().setMaxX(150);
+                graphView.getViewport().setMinX(1);
+                graphView.getViewport().setMinY(0);
             }
         });
         return view;

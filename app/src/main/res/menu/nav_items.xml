@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/indications"
-        android:icon="@drawable/person"
+        android:icon="@drawable/indications"
         android:title="@string/indications" />
 
     <item
