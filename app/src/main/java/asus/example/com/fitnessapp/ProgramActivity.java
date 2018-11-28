@@ -1,6 +1,5 @@
 package asus.example.com.fitnessapp;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +37,7 @@ public class ProgramActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.home:
-                startActivity(new Intent(this, MainActivity.class));
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
