@@ -1,33 +1,31 @@
 package asus.example.com.fitnessapp;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ProgramActivity extends AppCompatActivity {
 
-    private ImageView imageView;
     private TextView textView;
-    private final String PROGRAM="PROGRAM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program);
-        imageView = findViewById(R.id.image);
+        ImageView imageView = findViewById(R.id.image);
         textView = findViewById(R.id.text);
-        //imageView.setImageResource(R.drawable.p1);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null){
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        String PROGRAM = "PROGRAM";
         String path = getIntent().getStringExtra(PROGRAM);
         imageView.setImageResource(getResources().getIdentifier(path, "drawable", getPackageName()));
         readFromFile(path);

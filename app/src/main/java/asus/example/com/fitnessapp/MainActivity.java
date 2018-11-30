@@ -16,11 +16,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         FrameLayout container = (FrameLayout) findViewById(R.id.container);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        toolbar.setTitle("Toolbar");
+        toolbar.setLogo(R.mipmap.ic_launcher);
         Fragment fragment = new ProgramsFragment();
         FragmentTransaction fragmentTransaction;
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -59,6 +60,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ft.commit();
         return true;
     }
-
 
 }

@@ -11,10 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" >
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"
+                <action
+                    android:name="android.intent.action.MAIN"
                     android:launchMode="singleTask" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,14 +24,16 @@
         </activity>
         <activity
             android:name=".ArticleActivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ProgramActivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTask" />
-        <receiver android:name=".TimeNotification"/>
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity" />
+
+        <receiver android:name=".TimeNotification" />
+
+        <activity android:name=".AddingProgramOrArticleActivity"></activity>
     </application>
 
 </manifest>

@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 
 /**
@@ -33,6 +37,7 @@ public class ProgramsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_programs, container, false);
+        setHasOptionsMenu(true);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,programs);
         GridView gridView = view.findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
@@ -49,6 +54,21 @@ public class ProgramsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater){
+        super.onCreateOptionsMenu(menu,menuInflater);
+        menuInflater.inflate(R.menu.add,menu);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        super.onOptionsItemSelected(menuItem);
+        switch (menuItem.getItemId()){
+            case R.id.add:
+                Intent intent = new Intent(getActivity(), AddingProgramOrArticleActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
 }

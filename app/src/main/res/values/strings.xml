@@ -16,4 +16,5 @@
     <string name="pulse">Enter your pulse here</string>
     <string name="save">Save</string>
     <string name="create_graph">Create Graph of pulses for this month</string>
+    <string name="add">Add</string>
 </resources>

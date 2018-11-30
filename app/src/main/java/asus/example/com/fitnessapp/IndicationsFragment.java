@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class IndicationsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_indications, container, false);
@@ -65,6 +66,7 @@ public class IndicationsFragment extends Fragment {
                 cv.put("month", iMonth);
                 cv.put("year", iYear);
                 long rowID = database.insert("myTable", null, cv);
+
                 Toast.makeText(getContext(), "Information saved", Toast.LENGTH_SHORT).show();
             }
         });
@@ -98,7 +100,7 @@ public class IndicationsFragment extends Fragment {
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr);
                 graphView.addSeries(series);
                 graphView.getViewport().setMaxX(31);
-                graphView.getViewport().setMaxX(150);
+                graphView.getViewport().setMaxY(150);
                 graphView.getViewport().setMinX(1);
                 graphView.getViewport().setMinY(0);
             }
