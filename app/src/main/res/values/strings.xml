@@ -17,4 +17,14 @@
     <string name="save">Save</string>
     <string name="create_graph">Create Graph of pulses for this month</string>
     <string name="add">Add</string>
+    <string name="choose_the_section_you_need">Choose the section you need</string>
+    <string name="enter_the_title">Enter the title</string>
+    <string name="title">Title</string>
+    <string name="enter_the_content">Enter the content</string>
+    <string name="content">Content</string>
+
+    <string-array name="addVariants">
+        <item>Article</item>
+        <item>Program</item>
+    </string-array>
 </resources>
