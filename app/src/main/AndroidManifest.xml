@@ -33,7 +33,9 @@
 
         <receiver android:name=".TimeNotification" />
 
-        <activity android:name=".AddingProgramOrArticleActivity"></activity>
+        <activity android:name=".AddingProgramOrArticleActivity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
