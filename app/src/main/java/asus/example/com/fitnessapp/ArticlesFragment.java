@@ -85,6 +85,7 @@ public class ArticlesFragment extends Fragment {
         switch (menuItem.getItemId()){
             case R.id.add:
                 Intent intent = new Intent(getActivity(), AddingProgramOrArticleActivity.class);
+                intent.putExtra("variant",0);
                 startActivity(intent);
                 break;
         }

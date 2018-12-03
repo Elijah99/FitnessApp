@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 
 
 /**
@@ -66,6 +65,7 @@ public class ProgramsFragment extends Fragment {
         switch (menuItem.getItemId()){
             case R.id.add:
                 Intent intent = new Intent(getActivity(), AddingProgramOrArticleActivity.class);
+                intent.putExtra("variant",1);
                 startActivity(intent);
                 break;
         }
