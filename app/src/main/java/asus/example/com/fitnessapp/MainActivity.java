@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -22,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        FrameLayout container = (FrameLayout) findViewById(R.id.container);
         toolbar.setLogo(R.mipmap.ic_launcher);
         Fragment fragment = new ProgramsFragment();
         FragmentTransaction fragmentTransaction;
@@ -48,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 intent.putExtra(Intent.EXTRA_TEXT,"Hi, I'm using FitnessApp. Please, join us!");
                 startActivity(intent);
                 return true;
-                default:
-                    return super.onOptionsItemSelected(menuItem);
+            default:
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 

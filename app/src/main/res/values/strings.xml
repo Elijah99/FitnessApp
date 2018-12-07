@@ -23,6 +23,7 @@
     <string name="enter_the_content">Enter the content</string>
     <string name="content">Content</string>
     <string name="share">Share</string>
+    <string name="your_articles">Your articles:</string>
 
     <string-array name="addVariants">
         <item>Article</item>

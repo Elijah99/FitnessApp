@@ -71,4 +71,8 @@ public class ProgramsFragment extends Fragment {
         }
         return true;
     }
+
+    private class DBHelper{
+
+    }
 }

@@ -1,6 +1,7 @@
 package asus.example.com.fitnessapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,11 +29,8 @@ import java.util.Date;
  */
 public class IndicationsFragment extends Fragment {
 
-    private Button save;
-    private Button createGraph;
     private GraphView graphView;
     private EditText editText;
-    private DBHelper dbHelper;
     int i = 0;
     public IndicationsFragment() {
         // Required empty public constructor
@@ -44,11 +42,11 @@ public class IndicationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_indications, container, false);
-        save = view.findViewById(R.id.save);
-        createGraph = view.findViewById(R.id.create_graph);
+        Button save = view.findViewById(R.id.save);
+        Button createGraph = view.findViewById(R.id.create_graph);
         graphView = view.findViewById(R.id.graph);
         editText = view.findViewById(R.id.pulse);
-        dbHelper = new DBHelper(getContext());
+        DBHelper dbHelper = new DBHelper(getContext());
         final ContentValues cv = new ContentValues();
         final SQLiteDatabase database = dbHelper.getWritableDatabase();
 
@@ -77,18 +75,15 @@ public class IndicationsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Cursor cursor = database.query("myTable", null,null,null,null,null,null);
+                @SuppressLint("Recycle") Cursor cursor = database.query("myTable", new String[]{"pulse","date"},"month = ? and year = ?",
+                        new String[]{Integer.toString(new Date().getMonth()+1), Integer.toString(new Date().getYear()+1900)},
+                        null,null,null);
                 cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
+                while (!cursor.isAfterLast()){
                     int idPulseIndex = cursor.getColumnIndex("pulse");
                     int idDateIndex = cursor.getColumnIndex("date");
-                    int idMonthIndex = cursor.getColumnIndex("month");
-                    int idYearIndex = cursor.getColumnIndex("year");
-                    Date date = new Date();
-                    if ((cursor.getInt(idMonthIndex) == date.getMonth()+1) && (cursor.getInt(idYearIndex)==date.getYear()+1900)) {
-                        pulses.add(cursor.getInt(idPulseIndex));
-                        dates.add(cursor.getInt(idDateIndex));
-                    }
+                    pulses.add(cursor.getInt(idPulseIndex));
+                    dates.add(cursor.getInt(idDateIndex));
                     cursor.moveToNext();
                 }
                 DataPoint[] arr = new DataPoint[dates.size()];
@@ -99,10 +94,14 @@ public class IndicationsFragment extends Fragment {
                 System.out.print("Data points: " + arr.length);
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr);
                 graphView.addSeries(series);
+                graphView.getViewport().setXAxisBoundsManual(true);
+                graphView.getViewport().setYAxisBoundsManual(true);
                 graphView.getViewport().setMaxX(31);
-                graphView.getViewport().setMaxY(150);
+                graphView.getViewport().setMaxY(200);
                 graphView.getViewport().setMinX(1);
                 graphView.getViewport().setMinY(0);
+                graphView.getViewport().setScalable(true);
+                graphView.getViewport().setScrollable(true);
             }
         });
         return view;

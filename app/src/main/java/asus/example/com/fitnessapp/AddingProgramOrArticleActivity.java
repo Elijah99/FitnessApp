@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.Objects;
 
 public class AddingProgramOrArticleActivity extends AppCompatActivity {
+
+    private EditText title;
+    private EditText message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,9 @@ public class AddingProgramOrArticleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        title = findViewById(R.id.title);
+        message = findViewById(R.id.content);
+
     }
 
     @Override
@@ -34,7 +40,12 @@ public class AddingProgramOrArticleActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.save:
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"mikhaiovskii.s@tut.by"});
+                email.putExtra(Intent.EXTRA_SUBJECT, title.getText().toString());
+                email.putExtra(Intent.EXTRA_TEXT, message.getText().toString());
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Enter email client"));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -46,5 +57,6 @@ public class AddingProgramOrArticleActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.save, menu);
         return true;
     }
+
 
 }
