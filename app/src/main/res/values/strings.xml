@@ -24,6 +24,7 @@
     <string name="content">Content</string>
     <string name="share">Share</string>
     <string name="your_articles">Your articles:</string>
+    <string name="banner_ad_unit_id" />
 
     <string-array name="addVariants">
         <item>Article</item>
