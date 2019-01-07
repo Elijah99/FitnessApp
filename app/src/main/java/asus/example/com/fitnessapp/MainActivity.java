@@ -1,8 +1,12 @@
 package asus.example.com.fitnessapp;
 
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Environment;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -12,13 +16,78 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.graphics.Bitmap;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private View main;
+    private ImageView imageView;
     private AdView mAdView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        main = findViewById(R.id.main);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        Button print = (Button) findViewById(R.id.print);
+        print.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View view) {
+                imageView.setVisibility(View.VISIBLE);
+                Bitmap b = Screenshot.takescreenshotOfRootView(imageView);
+                imageView.setImageBitmap(b);
+                main.setBackgroundColor(Color.parseColor("#999999"));
+                String filename = "screen_for_print";
+                String path = Environment.getExternalStorageDirectory().toString() + "/" + filename;
+                OutputStream out = null;
+                File imageFile = new File(path);
+
+                try {
+                    out = new FileOutputStream(imageFile);
+                    b.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                } catch (FileNotFoundException e) {
+
+                } catch (IOException e) {
+
+                } finally {
+
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
+
+                    } catch (Exception exc) {
+                    }
+
+                }
+                imageView.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View v) {
+                    imageView.setVisibility(View.GONE);
+                    imageView.setImageResource(0);
+                    main.setBackgroundColor(Color.parseColor("#ffffff"));
+                }
+            });
+
+            }
+
+        });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
@@ -36,7 +105,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -86,5 +158,4 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ft.commit();
         return true;
     }
-
 }
